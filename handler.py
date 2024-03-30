@@ -1,12 +1,12 @@
 import logging
-from sentiment_model import SentimentModel
+from model import Model
 
 # configure logger and initialize model outside of the handle() function
 
 LOGGER = logging.getLogger()
 LOGGER.setLevel(logging.INFO)
 
-model = SentimentModel()
+model = Model()
 
 def handle(event, context):
     if event.get("source") == "KEEP_LAMBDA_WARM":

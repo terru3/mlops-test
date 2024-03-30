@@ -1,6 +1,6 @@
 from transformers import pipeline
 
-class SentimentModel:
+class Model:
     def __init__(self):
         self._sentiment_analysis = pipeline("sentiment-analysis")
 
@@ -10,6 +10,6 @@ class SentimentModel:
 # if __name__ == "__main__":
 #     sample_text = "Love is in the air!"
 
-#     model = SentimentModel()
+#     model = Model()
 #     sentiment = model.predict(text=sample_text)
 #     print(sentiment)
