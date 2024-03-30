@@ -1,0 +1,61 @@
+# define name of our service
+service: ml-model
+
+# global configs: pin the version of Serverless Framework
+frameworkVersion: "3"
+useDotenv: true
+
+# configure our provider
+
+# set some defaults. note that opt:region and opt:stage can be read in from the command line like so:
+# $ serverless deploy --region us-east-1 --stage production
+
+# note we define that we’ll use a Docker image to deploy our model
+
+provider:
+  name: aws
+  region: ${opt:region, 'eu-west-1'}
+  stage: ${opt:stage, 'development'}
+  logRetentionInDays: 30
+  ecr:
+    images:
+      appimage:
+        path: ./
+
+# define our ml_model Lambda function
+# specify which Docker image to use, which will be pushed to ECR and downloaded from there
+# Set timeout (s) and memory limits (I believe in MB)
+# Set environment variable paths for writable folders for PyTorch + HuggingFace libraries, since they’ll download some files. We used a "/tmp" folder, which is the only folder that's writable on AWS Lambda
+
+functions:
+  ml_model:
+    image:
+      name: appimage
+    timeout: 90
+    memorySize: 4096
+    environment:
+      TORCH_HOME: /tmp/.ml_cache
+      TRANSFORMERS_CACHE: /tmp/.ml_cache/huggingface
+
+# define another Lambda function, to keep our core Lambda warm
+# note we use the serverless-plugin-warmup plugin
+# note our payload:
+# { "source": "KEEP_LAMBDA_WARM" }
+# this is what our handle function earlier took in! recall
+# if event.get("source") == "KEEP_LAMBDA_WARM"
+
+custom:
+  warmup:
+    MLModelWarmer:
+      enabled: true
+      events:
+        - schedule: rate(4 minutes)
+      concurrency: ${env:WARMER_CONCURRENCY, 2}
+      # number of times called in parallel (default 1)
+      verbose: false
+      timeout: 100
+      payload:
+        source: KEEP_LAMBDA_WARM
+
+plugins:
+  - serverless-plugin-warmup
