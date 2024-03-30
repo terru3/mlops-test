@@ -14,7 +14,7 @@ useDotenv: true
 
 provider:
   name: aws
-  region: ${opt:region, 'eu-west-1'}
+  region: ${opt:region, 'us-west-1'}
   stage: ${opt:stage, 'development'}
   logRetentionInDays: 30
   ecr:

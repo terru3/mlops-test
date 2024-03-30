@@ -1,2 +1,4 @@
+boto3==1.34.74
+pytest==8.1.1
 torch==2.1.1
 transformers==4.32.1
