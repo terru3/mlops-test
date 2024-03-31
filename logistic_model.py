@@ -1,3 +1,4 @@
+import json
 import logging
 import os
 import pickle
@@ -95,7 +96,6 @@ def upload_to_s3(obj, bucket, file_name):
     pickle_byte_obj = pickle.dumps(obj)
     s3.Object(bucket, file_name).put(Body = pickle_byte_obj) ## add model to bucket
 
-
 def make_preds(test_data):
     """
     Performs inference using trained logistic regression model, loaded from S3.
@@ -145,7 +145,7 @@ def infer_handle(event, context):
 
     load_dotenv()
     return {
-        "churn": make_preds(test_data=event)
+        "churn": json.dumps(make_preds(test_data=event))
     }
 
 ## https://github.com/AndreasMerentitis/SkLambdaDemo-logistic/tree/main 
