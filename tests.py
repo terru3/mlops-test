@@ -8,7 +8,7 @@ def test_model():
         FunctionName='ml-model-development-ml_model',
         InvocationType='RequestResponse',
         Payload=json.dumps({"credit_score": 724,
-                  "country": 'France',
+                  "country": "France",
                   "gender": "Female",
                   "age": 27,
                   "tenure": 2,

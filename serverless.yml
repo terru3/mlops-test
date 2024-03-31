@@ -12,8 +12,12 @@ useDotenv: true
 
 # note we define that we’ll use a Docker image to deploy our model
 
+## A stage represents a unique identifier for a version of a deployed RestApi that is callable by users.
+## we use a stage to manage and optimize a particular deployment
+
 provider:
   name: aws
+  deploymentMethod: direct ## CloudFormation direct deployment instead of change sets, faster
   region: ${opt:region, 'us-west-1'}
   stage: ${opt:stage, 'development'}
   logRetentionInDays: 30
