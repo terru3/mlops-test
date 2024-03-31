@@ -2,3 +2,4 @@
 .dockerignore
 .vscode/
 __pycache__/
+.env

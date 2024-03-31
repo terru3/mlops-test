@@ -24,4 +24,6 @@ COPY . ${LAMBDA_TASK_ROOT}
 
 # specify which function will be called when Lambda is invoked
 
-CMD [ "handler.handle" ]
+CMD [ "logistic_model.infer_handle" ]
+
+## previously: CMD [ "handler.handle" ]
