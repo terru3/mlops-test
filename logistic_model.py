@@ -143,9 +143,12 @@ def infer_handle(event, context):
         LOGGER.info("No ML work to do. Just staying warm...")
         return "Keeping Lambda warm"
 
-    load_dotenv()
+    load_dotenv() ## likely not working. I just made the bucket public for read-access. TODO: figure out 
+    ## permissions—otherwise cannot automatically update model via train_handle deployment
+    ## https://stackoverflow.com/questions/43161761/how-should-i-pass-my-s3-credentials-to-python-lambda-function-on-aws 
+    ## perhaps go to lambda console to your function, and under Config > Permissions add S3 read/write access?
     return {
-        "churn": json.dumps(make_preds(test_data=event))
+        "churn": make_preds(test_data=event).tolist()
     }
 
 ## https://github.com/AndreasMerentitis/SkLambdaDemo-logistic/tree/main 
