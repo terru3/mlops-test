@@ -2,8 +2,12 @@ import json
 
 import boto3
 
+# from dotenv import load_dotenv
+# load_dotenv()
+
 def test_model():
-    client = boto3.client('lambda')
+    client = boto3.client('lambda') ## region temp for local pytesting
+    # client = boto3.client('lambda', region_name='us-west-1') ## region temp for local pytesting
     response = client.invoke(
         FunctionName='ml-model-development-ml_model',
         InvocationType='RequestResponse',
