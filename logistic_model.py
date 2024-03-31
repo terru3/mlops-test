@@ -145,12 +145,9 @@ def infer_handle(event, context):
 
     load_dotenv()
     return {
-        "churn": make_preds(test_point=event)
+        "churn": make_preds(test_data=event)
     }
 
-## in this example they directly call these separate train, infer Lambda fns in serverless.yml
-## for us we call stuff in the Dockerfile CMD.
-# TODO: think about when to train and when to just infer, etc.,.?? idk
 ## https://github.com/AndreasMerentitis/SkLambdaDemo-logistic/tree/main 
 
 # if __name__ == "__main__":

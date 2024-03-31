@@ -12,6 +12,8 @@ RUN pip3 install --upgrade pip
 COPY requirements.txt  .
 RUN  pip3 install -r requirements.txt --target "${LAMBDA_TASK_ROOT}"
 
+## LAMBDA_TASK_ROOT is a reserved runtime env var, the path to our Lambda function code
+
 #########
 # FINAL #
 #########

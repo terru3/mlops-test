@@ -25,17 +25,17 @@ provider:
 # define our ml_model Lambda function
 # specify which Docker image to use, which will be pushed to ECR and downloaded from there
 # Set timeout (s) and memory limits (I believe in MB)
-# Set environment variable paths for writable folders for PyTorch + HuggingFace libraries, since they’ll download some files. We used a "/tmp" folder, which is the only folder that's writable on AWS Lambda
+# Optionally, set environment variable paths for writable folders for PyTorch + HuggingFace libraries, since they’ll download some files. We used a "/tmp" folder, which is the only folder that's writable on AWS Lambda
 
 functions:
   ml_model:
     image:
       name: appimage
     timeout: 90
-    memorySize: 4096
-    environment:
-      TORCH_HOME: /tmp/.ml_cache
-      TRANSFORMERS_CACHE: /tmp/.ml_cache/huggingface
+    memorySize: 2048 ## temp constraint, gives error when > 3008
+    # environment:
+    #   TORCH_HOME: /tmp/.ml_cache
+    #   TRANSFORMERS_CACHE: /tmp/.ml_cache/huggingface
 
 # define another Lambda function, to keep our core Lambda warm
 # note we use the serverless-plugin-warmup plugin
@@ -50,7 +50,7 @@ custom:
       enabled: true
       events:
         - schedule: rate(4 minutes)
-      concurrency: ${env:WARMER_CONCURRENCY, 2}
+      # concurrency: ${env:WARMER_CONCURRENCY, 2}
       # number of times called in parallel (default 1)
       verbose: false
       timeout: 100
