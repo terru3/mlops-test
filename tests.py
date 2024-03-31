@@ -18,6 +18,4 @@ def test_model():
                   "active_member": 0,
                   "estimated_salary": 152513.96})
     )
-    print(json.loads(response['Payload'].read()))
-    # assert json.loads(response['Payload'].read())["churn"][0] == 0
-    ## any need to decode utf-8 after read?
+    assert json.loads(response['Payload'].read().decode('utf-8'))["churn"][0] == 0
